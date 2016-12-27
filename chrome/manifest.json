@@ -1,6 +1,6 @@
 {
-  "name": "Auto Tab Close",
-  "short_name": "Auto Tab Close",
+  "name": "Tab Auto Close",
+  "short_name": "Tab Auto Close",
   "description": "Automatically close browser tabs after a certain period of inactivity.",
   "version": "1.0.1",
   "icons": {
