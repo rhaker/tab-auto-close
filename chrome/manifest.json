@@ -1,8 +1,8 @@
 {
-  "name": "Spince Search",
-  "short_name": "Spince Search",
-  "description": "Spince Search is an advanced search tool that enhances the most popular search engines.",
-  "version": "0.9.1",
+  "name": "Auto Tab Close",
+  "short_name": "Auto Tab Close",
+  "description": "Automatically close browser tabs after a certain period of inactivity.",
+  "version": "1.0.1",
   "icons": {
     "16" : "img/icon_16.png",
     "48" : "img/icon_48.png",
@@ -14,8 +14,7 @@
 		"matches": [
 			"<all_urls>"
 		],
-		"js": ["js/jquery-3.1.0.min.js", "js/jBox.min.js", "js/spince.js"],
-		"css": ["css/jBox.css", "fa/css/font-awesome.min.css"]
+		"js": ["js/jquery-3.1.0.min.js", "js/spince.js"]		
     }
   ],
   "background": {
@@ -30,10 +29,10 @@
 		"default_popup": "popup.html" 
   },
   "permissions": [    
-		"storage"
+		"storage", "tabs", "notifications"
   ],
   "web_accessible_resources": [
-       "img/blue.gif", "img/redTop.png", "img/green.png", "img/dash.png", "img/iconOff38.png", "img/iconPause38.png", "img/white.png", "img/pink.png", "img/enter.png",  "fa/fonts/*"
+       "img/iconOff38.png", "img/iconPause38.png", "img/piIcon.png"
    ],
   "manifest_version": 2
 }
