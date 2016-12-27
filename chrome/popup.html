@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Spince Settings</title>
+    <title>Settings</title>
     <style>
     body {
       overflow: hidden;
@@ -29,54 +29,31 @@
       border: 1px solid red;
       color: blue;
     }    
-	.red {
+	#red {
       border: 1px solid red;
       color: red;
+    }    
+	#yellow {
+      border: 1px solid yellow;
+      color: yellow;
     }    
     #green {
       border: 1px solid green;
       color: green;
     }
-	#red2 {
-      border: 1px solid red;
-      color: red;
-	  display:none;
-    }    
-    #green2 {
-      border: 1px solid green;
-      color: green;
-	  display:none;
-    }    
-	#yellow {
-      border: 1px solid yellow;
-      color: yellow;	  
-    }    
 	#gray {
       border: 1px solid gray;
       color: gray;	  
-    }   	
-	#help {
-      border: 1px solid blue;
-      color: white;
-	  font-size: 1.0em;	  
-	  display:none;
     }   		
     </style>    		
 	<script src="js/popup.js"></script>	
   </head>
   <body>
 	<div id="hideCont">
-		<div id="blue">Rank: Fewest Ads</div>    			
-		<div class="red" id="imageRank">Rank: Image Count</div>
-		<div class="red" id="scriptRank">Rank: Script Count</div>				
-		<div class="red" id="videoRank">Rank: Video Count</div>		
-		<div class="red" id="textRank">Rank: Text Count</div>
-		<div class="red" id="linkRank">Rank: Link Count</div>		
-		<div id="yellow">Manage Links</div>
-		<div id="red2">Exclude a Link</div>
-		<div id="green2">Include a Link</div>		
-		<div id="green">Pause/Resume</div>		
-		<div id="help">Help?</div>
+		<div id="red">Blacklist Site</div>    
+		<div id="green">Whitelist Site</div>
+		<div id="yellow">Change Timer</div>		
+		<div id="blue">Pause/Resume</div>		
 		<div id="gray">Close</div>    	 
 	</div>
 	
