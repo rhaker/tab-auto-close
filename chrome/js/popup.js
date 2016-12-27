@@ -1,251 +1,261 @@
 // settings in local storage
+var hostName = "";
 var clickFlag = "off";
 var storage = chrome.storage.local;
 
-// update the rankType
-function updateRank(target) {
-
-	let rankType = target;
-	
-	// set the type to adRank for blue id
-	if (target === "blue") {
-	
-		rankType = "adRank";
-		
-	}
-
-	storage.set({'rankType': rankType}, function() {
-
-		// reload the current tab
-		chrome.tabs.reload();
-		 
-		// close window
-		window.close();
-		
-	});
-				
-}
-
-// check link storage
-function checkLinkStorage(link,linkType) {
+// get the current tab's hostName
+function getHostName(target) {
 
 	// check storage
-	storage.get('excludedLinks', function(items) {
+	storage.get('currentHostName', function(items) {
 
-		 // pull current excluded link list from storage
-		if (items.excludedLinks) {
+		 // pull current hostName from storage
+		if (items.currentHostName) {
 	 
-			// set the list
-			let excluded = items.excludedLinks;							
+			// set the hostName
+			hostName = items.currentHostName;							
 			
-			// parse the list
-			let excludedList = JSON.parse(excluded);
+			// handle the blacklist
+			editBlacklist(hostName,target);
 			
-			// check the list type
-			if (typeof(excludedList) === "string") {
+		} else {
+
+			// no hostName, close window		
+			window.close();			
+
+		}
+	});
+}
+
+// get the blacklist
+function editBlacklist(hostName,target) {
+
+	// check storage
+	storage.get('blacklist', function(items) {
+
+		 // pull current hostName from storage
+		if (items.blacklist) {
+	 
+			// get current blacklist
+			var websitesList = items.blacklist;
+		  
+			// parse the blacklist
+			websitesList = JSON.parse(websitesList);
+			
+			// check the type of the list			
+			if (typeof(websitesList) === "string") {
 			
 				// parse the string at spaces
-				let excludedListArray = excludedList.split(" ");
+				var websites = websitesList.split(" ");
 				
-				// handle the list
-				editLinks(excludedListArray,link,linkType);
-				
-			
 			} else {
 			
-				// handle the list
-				editLinks(excludedList,link,linkType);
+				var websites = websitesList;
+			
+			}
+			
+			// check the target
+			if (target == "red") {
+			
+				// check if already on list
+				if (websites.indexOf(hostName) >= 0) {
 				
+					// close window, already on blacklist
+					window.close();
+				
+				} else {
+				
+					// add hostName to websites
+					websites.push(hostName);
+					
+					// change the icon		
+					chrome.runtime.sendMessage({"message": "blacklistSite"});				
+					
+					// handle the blacklist
+					setBlacklist(websites);
+					
+				}
+							
+			} else {
+
+				// remove all occurrences of hostName from blacklist
+				for (var i=0; i < websites.length; i++){
+
+					if (websites[i] === hostName) websites.splice(i, 1);
+						
+				}
+					
+				// split the domain to check for universal match
+				let splitHostName = hostName.split(".");
+		
+				if (splitHostName.length > 2) {			
+				
+					// check if universal hostname match exists
+					let universalHostName = "*." + splitHostName[1] + "." + splitHostName[2];				
+
+					// remove all universal occurrences of hostName from blacklist
+					for (var j=0; j < websites.length; j++){
+					
+						if (websites[j] === universalHostName) websites.splice(j, 1);
+						
+					}
+
+				}
+				
+				// change the icon		
+				chrome.runtime.sendMessage({"message": "whitelistSite"});				
+					
+				// handle the blacklist
+				setBlacklist(websites);				
+			
 			}						
 			
 		} else {
 
-			// list is empty, set excluded list in storage
-			if (linkType == "exclude") {
-			
-				storage.set({'excludedLinks': JSON.stringify(link)}, function() {
-					// close window
-					window.close();
-				});
-			
-			// list is empty, set allLinks,
-			} else if (linkType == "pause") {
-			
-				storage.set({'excludedLinks': JSON.stringify("allLinks")}, function() {
-				
-					// change the icon		
-					chrome.runtime.sendMessage({"message": "pause"});									
+			// no hostName, close window		
+			window.close();			
 
-					// close window
-					window.close();
-				});
+		}
+		
+		
+	});
+}
+
+// set the new edited blacklist
+function setBlacklist(websites) {
+	
+	// store the blacklist
+	storage.set({'blacklist': JSON.stringify(websites)}, function() {
+		
+		// close the window
+		window.close();
+				
+	});
+		
+}
+
+// check paused
+function checkPaused() {
+
+	// check storage
+	storage.get('paused', function(items) {
+
+		 // pull current value from storage
+		if (items.paused) {
+	 
+			// set the value
+			let paused = items.paused;							
+						
+			// check the value type
+			if (paused === 'on') {
+							
+				// paused, turn pause off
+				setPaused('off');
 				
 			} else {
+							
+				// not paused, turn pause on
+				setPaused('on');
 			
-				// list is empty for include (link not excluded), just close
-				window.close();			
-				
-			}					
-
+			}
+											
+		} else {
+			
+			// pause not yet turned on - initialize to paused
+			setPaused('on');
+								
 		}
 	});
 
 }
 
-// function to edit the excluded links
-function editLinks(excludedList,link,linkType) {
-
-	// check if link is already on list
-	if (excludedList.indexOf(link) >= 0) {
-
-		// remove from list for include - do nothing for exclude (already on list)
-		if (linkType == "include") {
+// set the new pause value in storage
+function setPaused(pauseVal) {
+	
+	// store the blacklist
+	storage.set({'paused': pauseVal}, function() {
+						
+		// change the icon		
+		if (pauseVal === "on") {
 		
-			// remove all occurrences of link from list
-			for (var i=0; i < excludedList.length; i++){
-
-				if (excludedList[i] === link) excludedList.splice(i, 1);
-					
-			}
-
-			storage.set({'excludedLinks': JSON.stringify(excludedList)}, function() {
-				// close window
-				window.close();
-			});
-
-		// remove from list for resume
-		} else if (linkType == "pause") {
-
-			// remove all occurrences of link from list
-			for (var i=0; i < excludedList.length; i++){
-
-				if (excludedList[i] === link) excludedList.splice(i, 1);
-					
-			}
-
-			storage.set({'excludedLinks': JSON.stringify(excludedList)}, function() {
-				
-				// change the icon to resume		
-				chrome.runtime.sendMessage({"message": "whitelistSite"});									
-					
-				// close window
-				window.close();
-			});
+			// paused, send message to change icon
+			chrome.runtime.sendMessage({"message": "pause"});									
 		
 		} else {
 		
-			// close window
-			window.close();
+			// not paused, send message to change icon
+			chrome.runtime.sendMessage({"message": "whitelistSite"});		
 		
 		}
-	
-	} else {
-	
-		// add to list for exclude - do nothing for include (already not on list)
-		if (linkType == "exclude") {
-
-			// add link to list
-			excludedList.push(link);
-					
-			storage.set({'excludedLinks': JSON.stringify(excludedList)}, function() {
-				// close window
-				window.close();
-			});
-
-		// remove from list for resume	
-		} else if (linkType == "pause") {
-			
-			// add link to list
-			excludedList.push(link);
-					
-			storage.set({'excludedLinks': JSON.stringify(excludedList)}, function() {
-				
-				// change the icon to pause		
-				chrome.runtime.sendMessage({"message": "pause"});									
-				
-				// close window
-				window.close();
-			});
-			
-		} else {
 		
-			// close window
-			window.close();
-			
-		}
+		// close the window
+		window.close();
+				
+	});
 		
-	
-	}		
+}
 
+function setTimer(timerVal) {
+
+	// convert the timer to a string
+	let timerValString = timerVal.toString();
+
+	// store the blacklist
+	storage.set({'timerValue': timerValString}, function() {
+							
+		// close the window
+		window.close();
+				
+	});
+		
 }
 
 // update the blacklist storage based on click
 function click(e) {
- 
-  // if change rank
-  if ((e.target.id == "blue") || (e.target.id == "imageRank") || (e.target.id == "scriptRank") || (e.target.id == "videoRank") || (e.target.id == "textRank") || (e.target.id == "linkRank")) {
-
-		// prevent prompt from showing more than once
-		if (clickFlag == "off") {
-		
-			clickFlag = "on";
-		
-			// update the rank
-			updateRank(e.target.id);  
-
-		}
-		
-  // if resume or pause
+  
+  // if blacklist, add hostname to storage
+  if (e.target.id == "red") {
+	
+		// first get the hostName
+		getHostName(e.target.id);  
+  
+  // if whitelist, remove all occurrences of hostname from storage
   } else if (e.target.id == "green") {  
-
-		// check if paused, toggle state		
-		checkLinkStorage("allLinks","pause");				
+	
+		// first get the hostName
+		getHostName(e.target.id);
   
+  // if enter new timer countdown
   } else if (e.target.id == "yellow") {  
-  
-		// show the manage links divs
-		document.getElementById('blue').style.display = 'none';
-		document.getElementById('imageRank').style.display = 'none';
-		document.getElementById('scriptRank').style.display = 'none';
-		document.getElementById('videoRank').style.display = 'none';
-		document.getElementById('textRank').style.display = 'none';
-		document.getElementById('linkRank').style.display = 'none';
-		document.getElementById('green').style.display = 'none';
-		document.getElementById('yellow').style.display = 'none';
-		document.getElementById('red2').style.display = 'block';
-		document.getElementById('green2').style.display = 'block';
-		document.getElementById('help').style.display = 'block';
-  
-  } else if (e.target.id == "red2") {  
-  
+
 		// prevent prompt from showing more than once
 		if (clickFlag == "off") {
 		
 			clickFlag = "on";
-			let excludeLink = prompt("Enter the domain name of the link you want to exclude. For example, enter www.example.com.");
+			let timerValue = prompt("Enter the minutes of inactivity before tab auto closes.");
 	
 			// parse and validate the link
-			excludeLink = excludeLink.replace("http://", "");
-			excludeLink = excludeLink.replace("https://", "");
-			excludeLink = excludeLink.replace("://", "");
-			excludeLink = excludeLink.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
-			excludeLink = excludeLink.replace(/<\/?[^>]+>/ig, '');
-			excludeLink = excludeLink.trim((excludeLink.replace(/\s+/g, ' ')));
-			excludeLink = excludeLink.toLowerCase();
+			timerValue = timerValue.replace("http://", "");
+			timerValue = timerValue.replace("https://", "");
+			timerValue = timerValue.replace("://", "");
+			timerValue = timerValue.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
+			timerValue = timerValue.replace(/<\/?[^>]+>/ig, '');
+			timerValue = timerValue.trim((timerValue.replace(/\s+/g, ' ')));
 			
-			// split off only the hostName			
-			if (excludeLink.indexOf("/") >= 0) {
+			// convert to int
+			timerValue = parseInt(timerValue);
 			
-				var linkArray = excludeLink.split("/");
-				excludeLink = linkArray[0];
-				
-			}
-			
-			// make sure there is at least one .
-			if (excludeLink.indexOf(".") >= 0) {
+			// round to integer if decimal
+			timerValue = Math.round(timerValue);
+									
+			// make sure the timer is a positive number between 1 and 1000
+			if ((timerValue > 1) && (timerValue < 1000)) {
 						
+				// convert the minutes to ms
+				timerValue = timerValue * 1000 * 60;
+				
 				// handle the storage
-				checkLinkStorage(excludeLink,"exclude");				
+				setTimer(timerValue);				
 
 			} else {
 			
@@ -254,62 +264,18 @@ function click(e) {
 			
 			}			
 			
-		}		
-		
-	} else if (e.target.id == "green2") {  
+		}
   
-		// prevent prompt from showing more than once
-		if (clickFlag == "off") {
-		
-			clickFlag = "on";
-			let includeLink = prompt("Enter the domain name of the link you want to include. For example, enter www.example.com.");
-	
-			// parse and validate the link
-			includeLink = includeLink.replace("http://", "");
-			includeLink = includeLink.replace("https://", "");
-			includeLink = includeLink.replace("://", "");
-			includeLink = includeLink.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
-			includeLink = includeLink.replace(/<\/?[^>]+>/ig, '');
-			includeLink = includeLink.trim((includeLink.replace(/\s+/g, ' ')));
-			includeLink = includeLink.toLowerCase();
-			
-			// split off only the hostName			
-			if (includeLink.indexOf("/") >= 0) {
-			
-				var linkArray = includeLink.split("/");
-				includeLink = linkArray[0];
-				
-			}
-			
-			// make sure there is at least one .
-			if (includeLink.indexOf(".") >= 0) {
-						
-				// handle the storage
-				checkLinkStorage(includeLink,"include");				
+  // if resume or pause
+  } else if (e.target.id == "blue") {  
 
-			} else {
-			
-				// not valid, close window
-				window.close();
-			
-			}
-						
-		}				
-	
-  } else if (e.target.id == "help") {  
-
-		// prevent help alert from showing more than once
-		if (clickFlag == "off") {
-			clickFlag = "on";
-			alert("Excluding a link prevents Spince from analyzing that specific link on a page with many links.");
-			window.close();
-		}		
-		
+		// check if paused, toggle state		
+		checkPaused();				
+  		
   } else {  
-
+					
 		// close the popup window
 		window.close();
-		
   }
        
 }
