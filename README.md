@@ -4,7 +4,7 @@ Ad revenue to the website publisher is typically a function of views * CPM (cost
 
 ## Demo
 
-![alt text](http://search.spince.com/img/federalAidBing.gif "Demo")
+![alt text](https://github.com/rhaker/tab-auto-close/upload/master/chrome/notify.gif "Notifications")
 
 ## Installation
 
