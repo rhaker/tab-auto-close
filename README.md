@@ -17,13 +17,13 @@ The use cases for Tab Auto Close are similar and include cases along the lines o
 ## Demo
 
 2 minute notification of tab closing
-![Alt text](chrome/img/notify.gif?raw=true "Title")
+![Alt text](chrome/img/notify.gif?raw=true "Notifications")
 
 Tab auto closing due to inactivity
-![Alt text](chrome/img/notify.gif?raw=true "Title")
+![Alt text](chrome/img/closeTab.gif?raw=true "Auto Closing")
 
 Menu of control options
-![Alt text](chrome/img/notify.gif?raw=true "Title")
+![Alt text](chrome/img/popup.gif?raw=true "Menu Controls")
 
 ## Installation
 
