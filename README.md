@@ -31,12 +31,12 @@ You can install Tab Auto Close from the Chrome Web Store via <https://chrome.goo
 
 ## How It Works
 
-Any user activity on the page will reset the timer. Once a page is opened or navigated to, the auto close timer is instantiated. 
+Any user activity on the page will reset the timer. Once you navigate to or open a tab, the auto close timer is initialized. 
 
 The tool also includes other features:
 <ul>
 <li>Blacklist of sites to prevent execution</li>
-<li>Whitelist previously blacklisted sited</li>										
+<li>Whitelist previously blacklisted sites</li>										
 <li>Pause/Resume toggle to stop all execution on all sites</li>                    					
 <li>Input timer defaults to 1 hour, but is an input that can be changed</li>								
 <li>No browsing data sent to Spince</li>
@@ -45,4 +45,4 @@ The tool also includes other features:
 
 ## Additional Notes
 
-New features and pull requests are appreciated. There are also plans to build Spince for other platforms (Firefox, Safari, mobile).
+New features and pull requests are appreciated. There are also plans to build Tab Auto Close for other platforms (Firefox, Safari, mobile).
