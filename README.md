@@ -4,7 +4,7 @@ Ad revenue to the website publisher is typically a function of views * CPM (cost
 
 ## Demo
 
-![alt text](https://github.com/rhaker/tab-auto-close/chrome/img/notify.gif "Notifications")
+![alt text](https://github.com/rhaker/tab-auto-close/tree/master/chrome/img/notify.gif "Notifications")
 
 ## Installation
 
