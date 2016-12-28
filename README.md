@@ -6,6 +6,8 @@ Ad revenue to the website publisher is typically a function of views * CPM (cost
 
 ![alt text](https://github.com/rhaker/tab-auto-close/tree/master/chrome/img/icon.png "Notifications")
 
+![Alt text](chrome/img/notify.gif?raw=true "Title")
+
 ## Installation
 
 You can install Spince Search from the Chrome Web Store via <https://chrome.google.com/webstore/detail/spince-search/okhkfjjedepjhnfodgppdcphcmblkpjj/>
