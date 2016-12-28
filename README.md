@@ -10,7 +10,7 @@ The use cases for Tab Auto Close are similar and include cases along the lines o
 <ul>
 <li>You walk away from your computer and your social network is open for everyone to see.</li>
 <li>You walk away from your computer and your email is open in a browser tab.</li>
-<li>You want to auto close tabs that you have been auto logged out of.</li>
+<li>You want to auto close tabs where you have been auto logged out.</li>
 <li>You want to clean up tabs that you haven't used recently.</li>
 </ul>
 
