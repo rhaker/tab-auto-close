@@ -1,51 +1,46 @@
-## The Approach
+## Tab Auto Close
 
-Ad revenue to the website publisher is typically a function of views * CPM (cost per thousand impressions). The smaller the number of views to the site, the less revenue the publisher receives. Spince Search works by incentivizing the publisher to show fewer ads in order to rank higher in search results. Note that this approach does not require the publisher to show no ads.
+Tab Auto Close is a browser extension that closes a tab after a period of user inactivity. The period of inactivity is a user-controlled input (which defaults to 1 hour).  A desktop notification will alert the 2 minutes prior to the tab auto closing. Any user activity on the page will reset the auto close timer (clicks, scrolls, keyboard typing, etc). Finally, there is a blacklist and whiteist option to prevent the auto-closing on sites that should remain open.
+
+## Example Use Cases
+
+Tab Auto Close is the browser equivalent to a website performing an auto-logout. It is common practice for sites like banking or stock trading platforms to log the user out after a period of inactivity. This provides a bit of security to prevent someone who has walked away from having their accounts inappropriately accessed.
+
+The use cases for Tab Auto Close are similar and include cases along the lines of:
+<ul>
+<li>You walk away from your computer and your social network is open for everyone to see.</li>
+<li>You walk away from your computer and won't to close tabs where you've been logged out.</li>
+<li>You leave your computer open and you want to clean up tabs not being used.</li>
+</ul>
 
 ## Demo
 
-![alt text](https://github.com/rhaker/tab-auto-close/tree/master/chrome/img/icon.png "Notifications")
+2 minute notification of tab closing
+![Alt text](chrome/img/notify.gif?raw=true "Title")
 
+Tab auto closing due to inactivity
+![Alt text](chrome/img/notify.gif?raw=true "Title")
+
+Menu of control options
 ![Alt text](chrome/img/notify.gif?raw=true "Title")
 
 ## Installation
 
-You can install Spince Search from the Chrome Web Store via <https://chrome.google.com/webstore/detail/spince-search/okhkfjjedepjhnfodgppdcphcmblkpjj/>
-
-## Background - The Ad Blocker Controversy
-
-Millions of people have installed ad blockers because they almost always provide a better user experience. In many situations, pop-up ads and other intrusive techniques make it virtually impossible to navigate a site. Of course, to publishers who rely on the income of ads to cover their expenses and turn a profit, these ads blockers pose a significant threat. In theory, if everyone uses an ad blocker, ad-supported sites would not be able to exist.
-
-What has occurred recently is a constant battle between the ad block providers and the website publishers. There are now many sites that detect ad blockers and prevent the user from even seeing the content. Or now sites try to find ways to show ads even if an ad blocker is installed. It is a constant game of back and forth. 
+You can install Tab Auto Close from the Chrome Web Store via <https://chrome.google.com/webstore/detail/spince-search/okhkfjjedepjhnfodgppdcphcmblkpjj/>
 
 ## How It Works
 
-The tool enhances your search results by providing an extra level of analysis on top of Google and Bing searches. With Spince, the default ranking is by fewest advertisements. In order to rank higher with Spince Search, the website publisher is incentivized to show fewer ads.
-
+Any user activity on the page will reset the timer. Once a page is opened or navigated to, the auto close timer is instantiated. 
 
 The tool also includes other features:
 <ul>
-<li>Summary snapshot view of a search result</li>
-<li>Snapshot includes a list of site frameworks</li>
-<li>Snapshot also includes component counts</li>
-<li>TF algorithm extracts a key sentence</li>
-<li>Rank by text %, video, or image count</li>
-<li>Rank results by script or link count</li>
-<li>Runs on Google and Bing search engines</li>										
-<li>Doesn't run on non-search pages</li>										
-<li>Exclude any link to prevent analysis</li>                    					
-<li>Minimal bandwidth footprint (KBs)</li>								
+<li>Blacklist of sites to prevent execution</li>
+<li>Whitelist previously blacklisted sited</li>										
+<li>Pause/Resume toggle to stop all execution on all sites</li>                    					
+<li>Input timer defaults to 1 hour, but is an input that can be changed</li>								
 <li>No browsing data sent to Spince</li>
 <li>Open source code on github</li>
 </ul>
-
-## Usage Tips
-
-Spince ships with a whitelist that prevents the tool from running on non-search sites. You will see the icon on the toolbar turn red when the extension is running. Clicking on the toobar icon will also a display a menu where you can choose your ranking criteria. The default rank order is by fewest ads. So the result with a number 1 indicates the result with the fewest ads.
-
-You can also prevent a single link from being analyzed within a page. To prevent a link from being analyzed, you would click the Manage Links button from the Spince icon popup. When prompted you enter the domain name you want to manage.
-
-As an example, suppose you want to prevent all links for the www.example.com from being analyzed. You enter this domain in the Manage Link -> Exclude Link section of the Spince popup (in the browser toolbar). Then Spince will skip over any links that have the www.example.com domain.
 
 ## Additional Notes
 
