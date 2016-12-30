@@ -27,7 +27,7 @@ Menu of control options
 
 ## Installation
 
-You can install Tab Auto Close from the Chrome Web Store via <https://chrome.google.com/webstore/detail//tab-auto-close/fhojgodcjhfemegffifhopilpfokceoj/>
+You can install Tab Auto Close from the Chrome Web Store via <https://chrome.google.com/webstore/detail/tab-auto-close/fhojgodcjhfemegffifhopilpfokceoj>
 
 ## How It Works
 
